@@ -56,7 +56,16 @@ control_ret_t control_cleanup_i2c(void);
 #endif
 #if USE_USB || __DOXYGEN__
 
-control_ret_t list_xmos_devices(int vendor_id);
+// MAX_NUM_DEVICES limits the number of XMOS devices that can be listed in list_conncted_devices()
+#define MAX_NUM_DEVICES 16
+
+/** List the USB devices connected to the host machine
+ *
+ *  \param vendor_id     Vendor ID of USB devices
+ *
+ *  \returns           Whether the command was successful or not
+ */
+control_ret_t list_connected_devices(int vendor_id);
 
 /** Initialize the USB host interface
  *
