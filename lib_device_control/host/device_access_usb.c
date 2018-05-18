@@ -19,8 +19,6 @@
 
 // MAX_NUM_DEVICES limits the number of XMOS devices that can be listed in list_xmos_devices()
 #define MAX_NUM_DEVICES 16
-#define MAX_XVF_PID 0xFF
-
 
 static unsigned num_commands = 0;
 
@@ -189,7 +187,7 @@ control_ret_t list_xmos_devices(int vendor_id)
   #ifdef _WIN32
   for (struct usb_bus *bus = usb_get_busses(); bus && !devh; bus = bus->next) {
     for (struct usb_device *dev = bus->devices; dev; dev = dev->next) {
-      if (dev->descriptor.idVendor == vendor_id  &&   dev->descriptor.idProduct<MAX_XVF_PID) {
+      if (dev->descriptor.idVendor == vendor_id) {
         devh = usb_open(dev);
         if (!devh) {
           fprintf(stderr, "Failed to open device with Product ID: %#04x\n", dev->descriptor.idProduct);
@@ -218,7 +216,7 @@ control_ret_t list_xmos_devices(int vendor_id)
   struct libusb_device_descriptor desc;
   for (int dev_idx=0; dev_idx<num_dev; dev_idx++) { 
     libusb_get_device_descriptor(devs[dev_idx], &desc);
-    if (desc.idVendor == vendor_id &&  desc.idProduct<MAX_XVF_PID) {
+    if (desc.idVendor == vendor_id) {
 	if (num_devices+1>=MAX_NUM_DEVICES) {
           fprintf(stderr, "Maximum number of connected devices reached: %d\n", MAX_NUM_DEVICES);
 	  return CONTROL_ERROR;
