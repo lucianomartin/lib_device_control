@@ -231,9 +231,7 @@ control_ret_t list_connected_devices(int vendor_id)
     }
     printf("\n");
   }
-  
   return CONTROL_SUCCESS;
-
 }
 
 #ifdef _WIN32
