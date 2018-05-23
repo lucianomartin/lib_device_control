@@ -183,7 +183,11 @@ control_ret_t control_init_usb(int vendor_id, int product_id, int interface_num)
     fprintf(stderr, "failed to open device. Ensure adequate permissions\n");
     return CONTROL_ERROR;
   }
-
+  ret = libusb_claim_interface(devh, interface_num);
+  if (ret < 0) {
+    fprintf(stderr, "Error claiming interface %d %d\n", interface_num, ret);
+    return CONTROL_ERROR;
+  }
   libusb_free_device_list(devs, 1);
 
   return CONTROL_SUCCESS;
@@ -191,6 +195,7 @@ control_ret_t control_init_usb(int vendor_id, int product_id, int interface_num)
 
 control_ret_t control_cleanup_usb(void)
 {
+  libusb_release_interface(devh, 0);
   libusb_close(devh);
   libusb_exit(NULL);
 
