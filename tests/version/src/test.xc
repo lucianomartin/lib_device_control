@@ -125,8 +125,9 @@ void test_xscope(client interface control i[1])
   len = control_xscope_create_upload_buffer(buf,
     CONTROL_GET_VERSION, CONTROL_SPECIAL_RESID,
     NULL, sizeof(control_version_t));
-
+#pragma warning disable unusual-code // Suppress slice interface warning (no array size passed)
   ret = control_process_xscope_upload((uint8_t*)buf, sizeof(buf), len, len2, i);
+#pragma warning enable
   resp = (struct control_xscope_response*)buf;
   version = *(control_version_t*)(resp + 1);
 
